@@ -12,7 +12,6 @@ class ActionBlockProps extends UiProps {
   Map<String, bool> flags;
   bool isActive;
   Map<String, String> parameters;
-  String title;
 }
 
 @Component()

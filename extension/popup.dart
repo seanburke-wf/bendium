@@ -21,8 +21,8 @@ Future<Null> updateToken(String token) async {
 Future<Null> main() async {
   react_client.setClientConfiguration();
   String url = await currentUrl();
-  Map<String, String> data = await chrome.storage.local.get({'hipchat-token': ''});
-  adapter.token = data['hipchat-token'];
+  Map<String, dynamic> data = await chrome.storage.local.get({'hipchat-token': ''});
+  adapter.token = data['hipchat-token'] as String;
   final container = querySelector('#container');
   final popup = (Popup()..bender = adapter..currentUrl = url..updateTokenCallback = updateToken)();
   react_dom.render(popup,
