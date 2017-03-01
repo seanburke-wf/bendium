@@ -4,16 +4,14 @@
 import 'package:bendium/bendium.dart';
 import 'package:test/test.dart';
 
+@TestOn('browser')
 void main() {
-  group('A group of tests', () {
-    Awesome awesome;
-
-    setUp(() {
-      awesome = new Awesome();
-    });
-
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
+  group('validateAndCoerceToPullRequestUrl', () {
+    test('extracts just the PR url', () {
+      String expected = 'https://github.com/Workiva/w_viewer/pull/197';
+      String extraneousPrUrl = '$expected/files?monkey#issuecomment-283103917';
+      String actual = validateAndCoerceToPullRequestUrl(extraneousPrUrl);
+      expect(actual, equals(expected));
     });
   });
 }

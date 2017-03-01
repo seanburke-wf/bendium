@@ -11,10 +11,12 @@ class BenderAdapter {
   Map<String, String> get headers => {'Authorization': 'Bearer $token'};
 
   Future<Null> createTicket(String url) async {
+    url = validateAndCoerceToPullRequestUrl(url);
     await sendMessage('ticket $url');
   }
 
   Future<Null> monitorPullRequest(String url) async {
+    url = validateAndCoerceToPullRequestUrl(url);
     await sendMessage('monitor pr $url');
   }
 
@@ -25,4 +27,17 @@ class BenderAdapter {
       throw new Exception('Sending message failed: ${request.statusText}');
     }
   }
+}
+
+String validateAndCoerceToPullRequestUrl(String url) {
+  if (url == null) {
+    throw new ArgumentError.notNull('url');
+  }
+  final re = new RegExp(r'(https://github\.com/.*/pull/\d+).*');
+  String prUrl = re.allMatches(url)?.first?.group(1);
+  if (prUrl == null) {
+    throw new ArgumentError.value(
+        url, 'url', 'Not a PR url; does not match $re');
+  }
+  return prUrl;
 }
