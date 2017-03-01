@@ -1,0 +1,78 @@
+$black: grey;
+$light-black: lightgrey;
+
+body {
+  background-color: whitesmoke;
+  color: $black;
+  font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+  font-size: 1.0rem;
+  margin: 0;
+  min-height: 200px;
+  min-width: 350px;
+  padding: 0;
+}
+
+.actions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.config {
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.action {
+  align-items: center;
+  border-bottom: solid 1px #cccccc;
+  display: flex;
+  justify-items: left;
+  padding: 0.5rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.inactive {
+    pointer-events: none;
+  }
+}
+
+.action-title {
+  flex-grow: 1;
+}
+
+.action-button {
+  background: steelblue;
+  border-radius: 0.25rem;
+  border: none;
+  color: aliceblue;
+  cursor: pointer;
+  margin-right: 0.25rem;
+  padding: 0.35rem 0.65rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.action-trigger {
+  justify-content: flex-end;
+
+  &:after {
+    content: 'Run';
+  }
+}
+
+.action-configure {
+  background: darkorange;
+  justify-content: flex-end;
+
+  &:after {
+    content: '+';
+  }
+}
