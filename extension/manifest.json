@@ -12,6 +12,12 @@
     "default_popup": "popup.html"
   },
 
+  "commands": {
+    "monitor-pr": {
+      "description": "monitor pr"
+    }
+  },
+
   "icons": {
       "16": "icons/icon16.png",
       "19": "icons/icon19.png",

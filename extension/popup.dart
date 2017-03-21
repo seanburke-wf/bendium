@@ -27,4 +27,14 @@ Future<Null> main() async {
   final popup = (Popup()..bender = adapter..currentUrl = url..updateTokenCallback = updateToken)();
   react_dom.render(popup,
       container);
+
+  // Listen to keyboard shortcuts
+  chrome.commands.onCommand.listen((String eventName) async {
+    // Names come from manifest.json
+    switch (eventName) {
+      case 'monitor-pr':
+      default:
+        adapter.monitorPullRequest(await currentUrl());
+    }
+  });
 }
