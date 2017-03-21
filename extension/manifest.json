@@ -13,8 +13,11 @@
   },
 
   "commands": {
-    "monitor-pr": {
-      "description": "monitor pr"
+    "monitorPullRequest": {
+      "description": "Monitor Pull Request"
+    },
+    "createTicket": {
+      "description": "Create JIRA Ticket"
     }
   },
 
