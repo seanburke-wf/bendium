@@ -14,7 +14,11 @@ Future<Null> main() async {
   // Listen to keyboard shortcuts
   chrome.commands.onCommand.listen((String eventName) async {
     print('event_page.dart received chrome command $eventName');
+
+    // BEWARE: Do not try to get the url outside of this event listener
+    // or it will be wrong, likely the chrome://extensions url
     String url = await currentUrl();
+
     // Names come from manifest.json
     switch (eventName) {
       case 'createTicket':
