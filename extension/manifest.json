@@ -7,7 +7,7 @@
   "author": "George Lesica",
 
   "background": {
-      "scripts": ["event_page.js"],
+      "scripts": ["event_page.dart.js"],
       "persistent": false
   },
 

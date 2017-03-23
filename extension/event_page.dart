@@ -2,29 +2,29 @@ import 'dart:async';
 
 import 'package:bendium/bendium.dart';
 import 'package:chrome/chrome_ext.dart' as chrome;
+import 'utils.dart';
 
-BenderAdapter adapter = new BenderAdapter();
-
-Future<String> currentUrl() async {
-  var tab = await chrome.tabs.getSelected();
-  return tab.url;
-}
 
 Future<Null> main() async {
-  String url = await currentUrl();
+  // NOTE: Use the "Inspect views: background page" feature of chrome://extensions/ to see logs and errors
   Map<String, dynamic> data = await chrome.storage.local.get({'hipchat-token': ''});
+  BenderAdapter adapter = new BenderAdapter();
   adapter.token = data['hipchat-token'] as String;
 
   // Listen to keyboard shortcuts
   chrome.commands.onCommand.listen((String eventName) async {
+    print('event_page.dart received chrome command $eventName');
+    String url = await currentUrl();
     // Names come from manifest.json
     switch (eventName) {
       case 'createTicket':
-        adapter.createTicket(url);
+        await adapter.createTicket(url);
         break;
       case 'monitorPullRequest':
+        await adapter.monitorPullRequest(url);
+        break;
       default:
-        adapter.monitorPullRequest(url);
+        print('Didn\'t understand command name $eventName; ignoring');
     }
   });
 }
