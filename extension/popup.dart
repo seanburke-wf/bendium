@@ -27,19 +27,4 @@ Future<Null> main() async {
   final popup = (Popup()..bender = adapter..currentUrl = url..updateTokenCallback = updateToken)();
   react_dom.render(popup,
       container);
-
-  // Listen to keyboard shortcuts
-  // TODO move to a background page or this will only work when the popup is open
-  chrome.commands.onCommand.listen((String eventName) async {
-    // Names come from manifest.json
-    print('Bendium got a chrome command $eventName');
-    switch (eventName) {
-      case 'createTicket':
-        adapter.createTicket(url);
-        break;
-      case 'monitorPullRequest':
-      default:
-        adapter.monitorPullRequest(url);
-    }
-  });
 }
