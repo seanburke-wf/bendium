@@ -7,6 +7,8 @@ Bendium is a Chrome extension for talking to Bender.
 ```
 pub get
 pub build extension
+# or, if you want sourcemaps to know where your code fails,
+pub build extension --mode=debug
 ```
 
 Install the `build/extension/` directory.
