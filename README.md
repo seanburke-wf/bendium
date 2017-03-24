@@ -2,6 +2,9 @@
 
 Bendium is a Chrome extension for talking to Bender.
 
+You can set keyboard shortcuts for Bendium commands using the standard chrome://extensions page mechanism:
+![creating keyboard shortcuts](/documentation/bendium_keyboard_shorcuts.png)
+
 ## Build
 
 ```

@@ -22,9 +22,11 @@ Future<Null> main() async {
     // Names come from manifest.json
     switch (eventName) {
       case 'createTicket':
+        flashBadge('Tick');
         await adapter.createTicket(url);
         break;
       case 'monitorPullRequest':
+        flashBadge('PR');
         await adapter.monitorPullRequest(url);
         break;
       default:
