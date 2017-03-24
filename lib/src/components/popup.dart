@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:over_react/over_react.dart';
@@ -54,12 +55,12 @@ class PopupComponent extends UiComponent<PopupProps> {
     props.updateTokenCallback(tokenInput.value);
   }
 
-  void _createTicket(_, __) {
-    props.bender.createTicket(props.currentUrl);
+  Future _createTicket(_, __) async {
+    await props.bender.createTicket(props.currentUrl);
   }
 
-  void _monitor(_, __) {
-    props.bender.monitorPullRequest(props.currentUrl);
+  Future _monitor(_, __) async {
+    await props.bender.monitorPullRequest(props.currentUrl);
   }
 
   void _testWdeskSDK(_, __) {
