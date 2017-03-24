@@ -23,3 +23,7 @@ doc/api/
 *.iws
 
 .DS_Store
+
+# Release stuff
+extension.zip
+
