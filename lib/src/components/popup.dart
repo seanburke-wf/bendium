@@ -36,6 +36,10 @@ class PopupComponent extends UiComponent<PopupProps> {
           ..actionCallback = _createTicket
           ..isActive = _isPullRequest
           ..title = 'Create Jira Ticket')(),
+        (ActionBlock()
+          ..actionCallback = _testWdeskSDK
+          ..isActive = _isPullRequest
+          ..title = 'Test SDK Consumers')(),
         (Dom.div()..className = 'config')(
             (Dom.input()
               ..type = 'text'
@@ -56,5 +60,9 @@ class PopupComponent extends UiComponent<PopupProps> {
 
   void _monitor(_, __) {
     props.bender.monitorPullRequest(props.currentUrl);
+  }
+
+  void _testWdeskSDK(_, __) {
+    props.bender.testWdeskSDKRequest(props.currentUrl);
   }
 }
