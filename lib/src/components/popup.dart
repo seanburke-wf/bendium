@@ -63,7 +63,7 @@ class PopupComponent extends UiComponent<PopupProps> {
     await props.bender.monitorPullRequest(props.currentUrl);
   }
 
-  void _testWdeskSDK(_, __) {
-    props.bender.testWdeskSDKRequest(props.currentUrl);
+  Future _testWdeskSDK(_, __) async {
+    await props.bender.testWdeskSDKRequest(props.currentUrl);
   }
 }
