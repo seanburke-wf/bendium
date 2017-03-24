@@ -23,7 +23,7 @@ class BenderAdapter {
   }
 
   Future<Null> testWdeskSDKRequest(String url) async {
-    url = validateAndCoerceToPullRequestUrl(url);
+    url = validateAndCoerceToPullRequestUrlWdeskSDK(url);
     await sendMessage('test sdk $url');
   }
 
