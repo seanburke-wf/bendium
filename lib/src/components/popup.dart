@@ -38,9 +38,9 @@ class PopupComponent extends UiComponent<PopupProps> {
           ..isActive = _isPullRequest
           ..title = 'Create Jira Ticket')(),
         (ActionBlock()
-          ..actionCallback = _testWdeskSDK
+          ..actionCallback = _testConsumers
           ..isActive = _isPullRequest
-          ..title = 'Test SDK Consumers')(),
+          ..title = 'Test Consumers')(),
         (Dom.div()..className = 'config')(
             (Dom.input()
               ..type = 'text'
@@ -63,7 +63,7 @@ class PopupComponent extends UiComponent<PopupProps> {
     await props.bender.monitorPullRequest(props.currentUrl);
   }
 
-  Future _testWdeskSDK(_, __) async {
-    await props.bender.testWdeskSDKRequest(props.currentUrl);
+  Future _testConsumers(_, __) async {
+    await props.bender.testConsumersRequest(props.currentUrl);
   }
 }
