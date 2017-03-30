@@ -55,3 +55,4 @@ String validateAndCoerceToPullRequestUrl(String url) {
   }
   return prUrl;
 }
+
