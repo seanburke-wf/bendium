@@ -37,6 +37,10 @@ class PopupComponent extends UiComponent<PopupProps> {
           ..actionCallback = _createTicket
           ..isActive = _isPullRequest
           ..title = 'Create Jira Ticket')(),
+        (ActionBlock()
+          ..actionCallback = _testConsumers
+          ..isActive = _isPullRequest
+          ..title = 'Test Consumers')(),
         (Dom.div()..className = 'config')(
             (Dom.input()
               ..type = 'text'
@@ -57,5 +61,9 @@ class PopupComponent extends UiComponent<PopupProps> {
 
   Future _monitor(_, __) async {
     await props.bender.monitorPullRequest(props.currentUrl);
+  }
+
+  Future _testConsumers(_, __) async {
+    await props.bender.testConsumersRequest(props.currentUrl);
   }
 }

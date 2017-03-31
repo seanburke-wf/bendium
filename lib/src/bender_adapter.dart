@@ -22,6 +22,11 @@ class BenderAdapter {
     await sendMessage('monitor pr $url');
   }
 
+  Future<Null> testConsumersRequest(String url) async {
+    url = validateAndCoerceToPullRequestUrl(url);
+    await sendMessage('test consumers $url');
+  }
+
   Future<Null> sendMessage(String message) async {
     print('BenderAdapter.sendMessage');
     var request = await HttpRequest.request(endpoint,
