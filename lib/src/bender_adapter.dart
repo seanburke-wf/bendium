@@ -27,6 +27,11 @@ class BenderAdapter {
     await sendMessage('test consumers $url');
   }
 
+  Future<Null> mergeMasterRequest(String url) async {
+    url = validateAndCoerceToPullRequestUrl(url);
+    await sendMessage('update branch $url merge');
+  }
+
   Future<Null> sendMessage(String message) async {
     print('BenderAdapter.sendMessage');
     var request = await HttpRequest.request(endpoint,

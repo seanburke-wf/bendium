@@ -41,6 +41,10 @@ class PopupComponent extends UiComponent<PopupProps> {
           ..actionCallback = _testConsumers
           ..isActive = _isPullRequest
           ..title = 'Test Consumers')(),
+        (ActionBlock()
+          ..actionCallback = _mergeMaster
+          ..isActive = _isPullRequest
+          ..title = 'Merge Master')(),
         (Dom.div()..className = 'config')(
             (Dom.input()
               ..type = 'text'
@@ -65,5 +69,9 @@ class PopupComponent extends UiComponent<PopupProps> {
 
   Future _testConsumers(_, __) async {
     await props.bender.testConsumersRequest(props.currentUrl);
+  }
+
+  Future _mergeMaster(_, __) async {
+    await props.bender.mergeMasterRequest(props.currentUrl);
   }
 }
