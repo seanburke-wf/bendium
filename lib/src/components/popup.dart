@@ -1,12 +1,10 @@
-import 'dart:async';
 import 'dart:html';
 
+import 'package:bendium/src/action.dart';
 import 'package:over_react/over_react.dart';
 
 import 'package:bendium/src/bender_adapter.dart';
 import 'package:bendium/src/components/action_block.dart';
-
-final RegExp _prRegex = new RegExp(r'https://github.com/.+/.+/pull/[0-9]+');
 
 typedef void UpdateTokenCallback(String token);
 
@@ -15,8 +13,16 @@ UiFactory<PopupProps> Popup;
 
 @Props()
 class PopupProps extends UiProps {
+  @requiredProp
+  Iterable<Action> actions;
+
+  @requiredProp
   String currentUrl;
+
+  @requiredProp
   BenderAdapter bender;
+
+  @requiredProp
   UpdateTokenCallback updateTokenCallback;
 }
 
@@ -24,54 +30,29 @@ class PopupProps extends UiProps {
 class PopupComponent extends UiComponent<PopupProps> {
   InputElement tokenInput;
 
-  bool get _isPullRequest => props.currentUrl.startsWith(_prRegex);
-
   @override
   dynamic render() {
-    return (Dom.div()..className = 'actions-list')(
-        (ActionBlock()
-          ..actionCallback = _monitor
-          ..isActive = _isPullRequest
-          ..title = 'Monitor PR')(),
-        (ActionBlock()
-          ..actionCallback = _createTicket
-          ..isActive = _isPullRequest
-          ..title = 'Create Jira Ticket')(),
-        (ActionBlock()
-          ..actionCallback = _testConsumers
-          ..isActive = _isPullRequest
-          ..title = 'Test Consumers')(),
-        (ActionBlock()
-          ..actionCallback = _mergeMaster
-          ..isActive = _isPullRequest
-          ..title = 'Merge Master')(),
-        (Dom.div()..className = 'config')(
-            (Dom.input()
-              ..type = 'text'
-              ..ref = ((input) => tokenInput = input)
-              ..defaultValue = 'Update Hipchat token...')(),
-            (Dom.button()
-              ..className = 'action-button'
-              ..onClick = _saveHipchatToken)('Save')));
+    var actionBlocks = [];
+    for (var action in props.actions) {
+      actionBlocks.add((ActionBlock()
+        ..action = action
+        ..bender = props.bender
+        ..url = props.currentUrl)());
+    }
+
+    actionBlocks.add((Dom.div()..className = 'config')(
+        (Dom.input()
+          ..type = 'text'
+          ..ref = ((input) => tokenInput = input)
+          ..defaultValue = 'Update Hipchat token...')(),
+        (Dom.button()
+          ..className = 'action-button'
+          ..onClick = _saveHipchatToken)('Save')));
+
+    return (Dom.div()..className = 'actions-list')(actionBlocks);
   }
 
   void _saveHipchatToken(_) {
     props.updateTokenCallback(tokenInput.value);
-  }
-
-  Future _createTicket(_, __) async {
-    await props.bender.createTicket(props.currentUrl);
-  }
-
-  Future _monitor(_, __) async {
-    await props.bender.monitorPullRequest(props.currentUrl);
-  }
-
-  Future _testConsumers(_, __) async {
-    await props.bender.testConsumersRequest(props.currentUrl);
-  }
-
-  Future _mergeMaster(_, __) async {
-    await props.bender.mergeMasterRequest(props.currentUrl);
   }
 }

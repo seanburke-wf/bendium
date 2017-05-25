@@ -4,10 +4,10 @@ import 'package:bendium/bendium.dart';
 import 'package:chrome/chrome_ext.dart' as chrome;
 import 'utils.dart';
 
-
 Future<Null> main() async {
   // NOTE: Use the "Inspect views: background page" feature of chrome://extensions/ to see logs and errors
-  Map<String, dynamic> data = await chrome.storage.local.get({'hipchat-token': ''});
+  Map<String, dynamic> data =
+      await chrome.storage.local.get({'hipchat-token': ''});
   BenderAdapter adapter = new BenderAdapter();
   adapter.token = data['hipchat-token'] as String;
 
@@ -23,11 +23,11 @@ Future<Null> main() async {
     switch (eventName) {
       case 'createTicket':
         flashBadge('Tick');
-        await adapter.createTicket(url);
+        await adapter.sendMessage(createJiraTicket.getMessage(url));
         break;
       case 'monitorPullRequest':
         flashBadge('PR');
-        await adapter.monitorPullRequest(url);
+        await adapter.sendMessage(monitorPr.getMessage(url));
         break;
       default:
         print('Didn\'t understand command name $eventName; ignoring');
