@@ -3,7 +3,7 @@
 
   "name": "Bendium",
   "description": "Interact with Bender without leaving Chrome.",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "George Lesica",
 
   "background": {
