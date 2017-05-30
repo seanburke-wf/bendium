@@ -1,10 +1,10 @@
 // Copyright (c) 2017, George Lesica. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+@TestOn('browser')
 import 'package:bendium/bendium.dart';
 import 'package:test/test.dart';
 
-@TestOn('browser')
 void main() {
   group('validateAndCoerceToPullRequestUrl', () {
     test('extracts just the PR url', () {

@@ -10,28 +10,6 @@ class BenderAdapter {
 
   Map<String, String> get headers => {'Authorization': 'Bearer $token'};
 
-  Future<Null> createTicket(String url) async {
-    print('BenderAdapter.createTicket');
-    url = validateAndCoerceToPullRequestUrl(url);
-    await sendMessage('ticket $url');
-  }
-
-  Future<Null> monitorPullRequest(String url) async {
-    print('BenderAdapter.monitorPullRequest');
-    url = validateAndCoerceToPullRequestUrl(url);
-    await sendMessage('monitor pr $url');
-  }
-
-  Future<Null> testConsumersRequest(String url) async {
-    url = validateAndCoerceToPullRequestUrl(url);
-    await sendMessage('test consumers $url');
-  }
-
-  Future<Null> mergeMasterRequest(String url) async {
-    url = validateAndCoerceToPullRequestUrl(url);
-    await sendMessage('update branch $url merge');
-  }
-
   Future<Null> sendMessage(String message) async {
     print('BenderAdapter.sendMessage');
     var request = await HttpRequest.request(endpoint,
@@ -41,23 +19,3 @@ class BenderAdapter {
     }
   }
 }
-
-String validateAndCoerceToPullRequestUrl(String url) {
-  print('validateAndCoerceToPullRequestUrl $url');
-  if (url == null) {
-    throw new ArgumentError.notNull('url');
-  }
-  final re = new RegExp(r'(https://github\.com/.*/pull/\d+).*');
-  String prUrl;
-  try {
-    prUrl = re.allMatches(url)?.first?.group(1);
-  } catch (exc, trace) {
-    print('$exc $trace');
-  }
-  if (prUrl == null) {
-    throw new ArgumentError.value(
-        url, 'url', 'Not a PR url; does not match $re');
-  }
-  return prUrl;
-}
-
