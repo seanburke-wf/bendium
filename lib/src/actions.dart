@@ -55,6 +55,15 @@ final Action mergeMaster = new Action(
   title: 'Merge Master',
 );
 
+final Action updateGolds = new Action(
+  getMessage: (String url) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'update golds $validUrl';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Update Gold Files',
+);
+
 /// List of actions registered with the extension.
 ///
 /// To add new actions, simply add them to this list.
@@ -63,4 +72,5 @@ final Iterable<Action> actions = <Action>[
   monitorPr,
   testConsumers,
   mergeMaster,
+  updateGolds,
 ];
