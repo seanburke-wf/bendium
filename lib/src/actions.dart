@@ -64,6 +64,15 @@ final Action updateGolds = new Action(
   title: 'Update Gold Files',
 );
 
+final Action dartFormat = new Action(
+  getMessage: (String url) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'update branch $validUrl format';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Run Dart Format',
+);
+
 /// List of actions registered with the extension.
 ///
 /// To add new actions, simply add them to this list.
@@ -73,4 +82,5 @@ final Iterable<Action> actions = <Action>[
   testConsumers,
   mergeMaster,
   updateGolds,
+  dartFormat,
 ];
