@@ -1,5 +1,7 @@
 import 'package:bendium/src/action.dart';
 
+final RegExp _repoRegex = new RegExp(r'https://github\.com/Workiva/([^/?]+)');
+
 String validateAndCoerceToPullRequestUrl(String url) {
   print('validateAndCoerceToPullRequestUrl $url');
   if (url == null) {
@@ -15,6 +17,21 @@ String validateAndCoerceToPullRequestUrl(String url) {
   if (prUrl == null) {
     throw new ArgumentError.value(
         url, 'url', 'Not a PR url; does not match $re');
+  }
+  return prUrl;
+}
+
+String validateAndExtractRepoName(String url) {
+  if (url == null) {
+    throw new ArgumentError.notNull('url');
+  }
+  String prUrl;
+  try {
+    prUrl = _repoRegex.allMatches(url)?.first?.group(1);
+  } catch (_) {}
+  if (prUrl == null) {
+    throw new ArgumentError.value(
+        url, 'url', 'Not a repository url; does not match $_repoRegex');
   }
   return prUrl;
 }
@@ -73,6 +90,15 @@ final Action dartFormat = new Action(
   title: 'Run Dart Format',
 );
 
+final Action cutRelease = new Action(
+  getMessage: (String url) {
+    var repoName = validateAndExtractRepoName(url);
+    return 'release $repoName';
+  },
+  isActive: (String url) => url.startsWith(_repoRegex),
+  title: 'Cut Release',
+);
+
 /// List of actions registered with the extension.
 ///
 /// To add new actions, simply add them to this list.
@@ -83,4 +109,5 @@ final Iterable<Action> actions = <Action>[
   mergeMaster,
   updateGolds,
   dartFormat,
+  cutRelease,
 ];
