@@ -2,6 +2,14 @@
 
 Bendium is a Chrome extension for talking to Bender.
 
+## Install
+
+Bendium is available in the Workiva section of the Chrome Web Store.
+
+You'll need to get a HipChat API token. Log into the HipChat web interface (you
+can just click "Profile" within the desktop client). Then select "API Access"
+on the left and create a new token. It only requires the "Send Message" scope.
+
 You can set keyboard shortcuts for Bendium commands using the standard chrome://extensions page mechanism:
 ![creating keyboard shortcuts](/documentation/bendium_keyboard_shorcuts.png)
 
