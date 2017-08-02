@@ -90,6 +90,24 @@ final Action dartFormat = new Action(
   title: 'Run Dart Format',
 );
 
+final Action rerunSmithy = new Action(
+  getMessage: (String url) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'rerun smithy for $validUrl';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Re-run Smithy',
+);
+
+final Action rerunSkynet = new Action(
+  getMessage: (String url) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'rerun skynet for $validUrl';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Re-run Skynet',
+);
+
 final Action cutRelease = new Action(
   getMessage: (String url) {
     var repoName = validateAndExtractRepoName(url);
@@ -109,5 +127,7 @@ final Iterable<Action> actions = <Action>[
   mergeMaster,
   updateGolds,
   dartFormat,
+  rerunSmithy,
+  rerunSkynet,
   cutRelease,
 ];
