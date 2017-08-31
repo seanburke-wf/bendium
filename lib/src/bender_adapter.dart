@@ -11,7 +11,6 @@ class BenderAdapter {
   Map<String, String> get headers => {'Authorization': 'Bearer $token'};
 
   Future<Null> sendMessage(String message) async {
-    window.alert(message);
     print('BenderAdapter.sendMessage: $message');
     var request = await HttpRequest.request(endpoint,
         method: 'POST', sendData: message, requestHeaders: headers);
