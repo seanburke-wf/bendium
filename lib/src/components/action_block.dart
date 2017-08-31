@@ -47,6 +47,7 @@ class ActionBlockComponent
     ReactElement parameter;
     if (props.action.parameterName != null) {
       parameter = (Dom.div()..className = 'action-parameter')((Dom.input()
+        ..placeholder = props.action.parameterName
         ..onChange = _onParameterChange
         ..value = state.parameterValue)());
     }
@@ -57,8 +58,9 @@ class ActionBlockComponent
           ..className = 'action-trigger action-button'
           ..onClick = _handleActionTriggerClick)()
         : null;
+
     return (Dom.div()
-      ..className = 'action ${isActive ? 'active' : 'inactive'}')(
+          ..className = 'action ${isActive ? 'active' : 'inactive'}')(
         actionTitle, parameter, actionTrigger);
   }
 
@@ -68,7 +70,11 @@ class ActionBlockComponent
   }
 
   void _onParameterChange(SyntheticFormEvent event) {
-    setState(newState()..parameterValue = event.target.value);
-    props.updateParameterValueCallback(event.target.value);
+    String value = event.target.value;
+    if (value == '') {
+      value = null;
+    }
+    setState(newState()..parameterValue = value);
+    props.updateParameterValueCallback(value);
   }
 }

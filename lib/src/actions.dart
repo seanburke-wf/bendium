@@ -39,10 +39,14 @@ String validateAndExtractRepoName(String url) {
 final Action createJiraTicket = new ActionImpl(
   getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == null || value == '') {
+      return 'ticket $validUrl';
+    }
+
     return 'rogue ticket $validUrl $value';
   },
   isActive: Action.isPullRequestUrl,
-  parameterName: 'Project',
+  parameterName: 'JIRA Project',
   title: 'Create JIRA Ticket',
 );
 
