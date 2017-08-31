@@ -8,6 +8,9 @@ import 'package:bendium/src/components/action_block.dart';
 
 typedef void UpdateTokenCallback(String token);
 
+typedef UpdateParameterValueCallback UpdateParameterValueCallbackFactory(
+    Action action);
+
 @Factory()
 UiFactory<PopupProps> Popup;
 
@@ -24,6 +27,9 @@ class PopupProps extends UiProps {
 
   @requiredProp
   UpdateTokenCallback updateTokenCallback;
+
+  @requiredProp
+  UpdateParameterValueCallbackFactory updateParameterValueCallbackFactory;
 }
 
 @Component()
@@ -37,11 +43,14 @@ class PopupComponent extends UiComponent<PopupProps> {
       actionBlocks.add((ActionBlock()
         ..action = action
         ..bender = props.bender
-        ..url = props.currentUrl)());
+        ..url = props.currentUrl
+        ..updateParameterValueCallback =
+            props.updateParameterValueCallbackFactory(action))());
     }
 
     actionBlocks.add((Dom.div()..className = 'config')(
         (Dom.input()
+          ..className = 'action-field'
           ..type = 'text'
           ..ref = ((input) => tokenInput = input)
           ..defaultValue = 'Update Hipchat token...')(),

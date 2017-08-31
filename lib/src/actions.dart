@@ -36,17 +36,18 @@ String validateAndExtractRepoName(String url) {
   return prUrl;
 }
 
-final Action createJiraTicket = new Action(
-  getMessage: (String url) {
+final Action createJiraTicket = new ActionImpl(
+  getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
-    return 'ticket $validUrl';
+    return 'rogue ticket $validUrl $value';
   },
   isActive: Action.isPullRequestUrl,
+  parameterName: 'Project',
   title: 'Create JIRA Ticket',
 );
 
-final Action monitorPr = new Action(
-  getMessage: (String url) {
+final Action monitorPr = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'monitor pr $validUrl';
   },
@@ -54,8 +55,8 @@ final Action monitorPr = new Action(
   title: 'Monitor PR',
 );
 
-final Action testConsumers = new Action(
-  getMessage: (String url) {
+final Action testConsumers = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'test consumers $validUrl';
   },
@@ -63,8 +64,8 @@ final Action testConsumers = new Action(
   title: 'Test Consumers',
 );
 
-final Action mergeMaster = new Action(
-  getMessage: (String url) {
+final Action mergeMaster = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'update branch $validUrl merge';
   },
@@ -72,8 +73,8 @@ final Action mergeMaster = new Action(
   title: 'Merge Master',
 );
 
-final Action updateGolds = new Action(
-  getMessage: (String url) {
+final Action updateGolds = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'update golds $validUrl';
   },
@@ -81,8 +82,8 @@ final Action updateGolds = new Action(
   title: 'Update Gold Files',
 );
 
-final Action dartFormat = new Action(
-  getMessage: (String url) {
+final Action dartFormat = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'update branch $validUrl format';
   },
@@ -90,8 +91,8 @@ final Action dartFormat = new Action(
   title: 'Run Dart Format',
 );
 
-final Action rerunSmithy = new Action(
-  getMessage: (String url) {
+final Action rerunSmithy = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'rerun smithy for $validUrl';
   },
@@ -99,8 +100,8 @@ final Action rerunSmithy = new Action(
   title: 'Re-run Smithy',
 );
 
-final Action rerunSkynet = new Action(
-  getMessage: (String url) {
+final Action rerunSkynet = new ActionImpl(
+  getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     return 'rerun skynet for $validUrl';
   },
@@ -108,8 +109,8 @@ final Action rerunSkynet = new Action(
   title: 'Re-run Skynet',
 );
 
-final Action cutRelease = new Action(
-  getMessage: (String url) {
+final Action cutRelease = new ActionImpl(
+  getMessage: (String url, _) {
     var repoName = validateAndExtractRepoName(url);
     return 'release $repoName';
   },
