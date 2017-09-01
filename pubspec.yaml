@@ -12,6 +12,7 @@ dependencies:
   chrome: ^0.9.2
   dart_sass_transformer: ^0.5.0
   dart_to_js_script_rewriter: ^1.0.0
+  pubspec: ^0.0.14
   react: ^3.0.0
   w_flux: ^2.6.0
   over_react: ^1.9.0
