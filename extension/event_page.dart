@@ -32,6 +32,11 @@ Future<Null> main() async {
       return;
     }
 
+    // Load parameterValue
+    Map<String, dynamic> actionData =
+        await chrome.storage.local.get({action.commandKey: ''});
+    action.parameterValue = actionData[action.commandKey] as String;
+
     flashBadge(action.commandKey.substring(0, 1).toUpperCase());
     await adapter.sendMessage(action.getMessage(url, action.parameterValue));
   });
