@@ -2,14 +2,17 @@ $black: grey;
 $light-black: lightgrey;
 
 body {
-  background-color: whitesmoke;
   color: $black;
   font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
   font-size: 1.0rem;
   margin: 0;
-  min-height: 200px;
-  min-width: 350px;
   padding: 0;
+}
+
+#container {
+  height: 400px;
+  overflow-y: scroll;
+  width: 350px;
 }
 
 .actions-list {
@@ -18,8 +21,17 @@ body {
 }
 
 .config {
+  display: flex;
   justify-content: flex-end;
   padding: 0.5rem;
+
+  .action-button {
+    flex-shrink: 1;
+  }
+
+  .action-field {
+    flex-grow: 1;
+  }
 }
 
 .action {
@@ -42,6 +54,11 @@ body {
   flex-grow: 1;
 }
 
+.action-parameter {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .action-button {
   background: steelblue;
   border-radius: 0.25rem;
@@ -58,6 +75,10 @@ body {
   &:hover {
     opacity: 0.7;
   }
+}
+
+.action-field {
+  padding: 0.28rem;
 }
 
 .action-trigger {
