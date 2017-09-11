@@ -95,6 +95,24 @@ final Action dartFormat = new ActionImpl(
   title: 'Run Dart Format',
 );
 
+final Action pubGet = new ActionImpl(
+  getMessage: (String url, _) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'update branch $validUrl get';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Run Pub Get',
+);
+
+final Action runBootstrap = new ActionImpl(
+  getMessage: (String url, _) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'update branch $validUrl bootstrap';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Run SDK Bootstrap',
+);
+
 final Action rerunSmithy = new ActionImpl(
   getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
@@ -122,6 +140,15 @@ final Action cutRelease = new ActionImpl(
   title: 'Cut Release',
 );
 
+final Action updateDartDeps = new ActionImpl(
+  getMessage: (String url, _) {
+    var repoName = validateAndExtractRepoName(url);
+    return 'pub update $repoName';
+  },
+  isActive: (String url) => url.startsWith(_repoRegex),
+  title: 'Update Dart Dependencies',
+);
+
 /// List of actions registered with the extension.
 ///
 /// To add new actions, simply add them to this list.
@@ -132,7 +159,10 @@ final Iterable<Action> actions = <Action>[
   mergeMaster,
   updateGolds,
   dartFormat,
+  pubGet,
+  runBootstrap,
   rerunSmithy,
   rerunSkynet,
   cutRelease,
+  updateDartDeps
 ];
