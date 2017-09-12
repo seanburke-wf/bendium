@@ -50,6 +50,32 @@ final Action createJiraTicket = new ActionImpl(
   title: 'Create JIRA Ticket',
 );
 
+final Action testConsumers = new ActionImpl(
+  getMessage: (String url, String value) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == null || value == '') {
+      return 'test consumers $validUrl';
+    }
+    return 'test consumers $validUrl close';
+  },
+  isActive: Action.isPullRequestUrl,
+  parameterName: 'Close test PR?',
+  title: 'Test Consumers',
+);
+
+final Action deployPR = new ActionImpl(
+  getMessage: (String url, String value) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == null || value == '') {
+      return 'commands Bender deploy';
+    }
+    return 'deploy $validUrl to $value';
+  },
+  isActive: Action.isPullRequestUrl,
+  parameterName: 'Required Service Name',
+  title: 'Deploy to Wk-dev',
+);
+
 final Action monitorPr = new ActionImpl(
   getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
@@ -57,15 +83,6 @@ final Action monitorPr = new ActionImpl(
   },
   isActive: Action.isPullRequestUrl,
   title: 'Monitor PR',
-);
-
-final Action testConsumers = new ActionImpl(
-  getMessage: (String url, _) {
-    var validUrl = validateAndCoerceToPullRequestUrl(url);
-    return 'test consumers $validUrl';
-  },
-  isActive: Action.isPullRequestUrl,
-  title: 'Test Consumers',
 );
 
 final Action mergeMaster = new ActionImpl(
@@ -154,8 +171,9 @@ final Action updateDartDeps = new ActionImpl(
 /// To add new actions, simply add them to this list.
 final Iterable<Action> actions = <Action>[
   createJiraTicket,
-  monitorPr,
   testConsumers,
+  deployPR,
+  monitorPr,
   mergeMaster,
   updateGolds,
   dartFormat,
