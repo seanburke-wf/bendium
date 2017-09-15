@@ -2,6 +2,8 @@ import 'package:bendium/src/action.dart';
 
 final RegExp _repoRegex = new RegExp(r'https://github\.com/Workiva/([^/?]+)');
 
+/// Validate a GitHub PR URL and attempt strip any trailing path segments
+/// if they exist.
 String validateAndCoerceToPullRequestUrl(String url) {
   print('validateAndCoerceToPullRequestUrl $url');
   if (url == null) {
@@ -21,6 +23,8 @@ String validateAndCoerceToPullRequestUrl(String url) {
   return prUrl;
 }
 
+/// Extract the repo name from a GitHub URL after verifying that it is
+/// well-formed.
 String validateAndExtractRepoName(String url) {
   if (url == null) {
     throw new ArgumentError.notNull('url');
@@ -50,6 +54,34 @@ final Action createJiraTicket = new ActionImpl(
   title: 'Create JIRA Ticket',
 );
 
+final Action testConsumers = new ActionImpl(
+  getMessage: (String url, String value) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == 'true') {
+      return 'test consumers $validUrl close';
+    } else {
+      return 'test consumers $validUrl';
+    }
+  },
+  isActive: Action.isPullRequestUrl,
+  parameterName: 'Close test PR?',
+  parameterType: ParameterType.boolean,
+  title: 'Test Consumers',
+);
+
+final Action deployPR = new ActionImpl(
+  getMessage: (String url, String value) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == null || value == '') {
+      return 'commands Bender deploy';
+    }
+    return 'deploy $validUrl to $value';
+  },
+  isActive: Action.isPullRequestUrl,
+  parameterName: 'Required Service Name',
+  title: 'Deploy to Wk-dev',
+);
+
 final Action monitorPr = new ActionImpl(
   getMessage: (String url, _) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
@@ -57,15 +89,6 @@ final Action monitorPr = new ActionImpl(
   },
   isActive: Action.isPullRequestUrl,
   title: 'Monitor PR',
-);
-
-final Action testConsumers = new ActionImpl(
-  getMessage: (String url, _) {
-    var validUrl = validateAndCoerceToPullRequestUrl(url);
-    return 'test consumers $validUrl';
-  },
-  isActive: Action.isPullRequestUrl,
-  title: 'Test Consumers',
 );
 
 final Action mergeMaster = new ActionImpl(
@@ -154,8 +177,9 @@ final Action updateDartDeps = new ActionImpl(
 /// To add new actions, simply add them to this list.
 final Iterable<Action> actions = <Action>[
   createJiraTicket,
-  monitorPr,
   testConsumers,
+  deployPR,
+  monitorPr,
   mergeMaster,
   updateGolds,
   dartFormat,

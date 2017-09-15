@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:bendium/src/action.dart';
 import 'package:bendium/src/bender_adapter.dart';
 import 'package:over_react/over_react.dart';
@@ -46,10 +48,25 @@ class ActionBlockComponent
 
     ReactElement parameter;
     if (props.action.parameterName != null) {
-      parameter = (Dom.div()..className = 'action-parameter')((Dom.input()
-        ..placeholder = props.action.parameterName
-        ..onChange = _onParameterChange
-        ..value = state.parameterValue)());
+      ReactElement parameterInput;
+      switch (props.action.parameterType) {
+        case ParameterType.boolean:
+          parameterInput = Dom.label()(
+              props.action.parameterName,
+              (Dom.input()
+                ..type = 'checkbox'
+                ..onChange = _onParameterChange
+                ..checked = state.parameterValue == 'true'
+                ..value = state.parameterValue)());
+          break;
+        case ParameterType.text:
+          parameterInput = (Dom.input()
+            ..placeholder = props.action.parameterName
+            ..onChange = _onParameterChange
+            ..value = state.parameterValue)();
+          break;
+      }
+      parameter = (Dom.div()..className = 'action-parameter')(parameterInput);
     }
 
     var actionTrigger = isActive
@@ -70,10 +87,19 @@ class ActionBlockComponent
   }
 
   void _onParameterChange(SyntheticFormEvent event) {
-    String value = event.target.value;
+    InputElement target = event.target;
+
+    String value;
+    if (target is CheckboxInputElement) {
+      value = target.checked ? 'true' : 'false';
+    } else {
+      value = target.value;
+    }
+
     if (value == '') {
       value = null;
     }
+
     setState(newState()..parameterValue = value);
     props.updateParameterValueCallback(value);
   }

@@ -10,9 +10,9 @@ body {
 }
 
 #container {
-  height: 400px;
+  height: 450px;
   overflow-y: scroll;
-  width: 350px;
+  width: 450px;
 }
 
 .actions-list {
@@ -96,4 +96,8 @@ body {
   &:after {
     content: '+';
   }
+}
+
+label {
+  font-size: 12px;
 }
