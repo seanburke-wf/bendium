@@ -2,6 +2,8 @@ import 'package:bendium/src/action.dart';
 
 final RegExp _repoRegex = new RegExp(r'https://github\.com/Workiva/([^/?]+)');
 
+/// Validate a GitHub PR URL and attempt strip any trailing path segments
+/// if they exist.
 String validateAndCoerceToPullRequestUrl(String url) {
   print('validateAndCoerceToPullRequestUrl $url');
   if (url == null) {
@@ -21,6 +23,8 @@ String validateAndCoerceToPullRequestUrl(String url) {
   return prUrl;
 }
 
+/// Extract the repo name from a GitHub URL after verifying that it is
+/// well-formed.
 String validateAndExtractRepoName(String url) {
   if (url == null) {
     throw new ArgumentError.notNull('url');
@@ -53,13 +57,15 @@ final Action createJiraTicket = new ActionImpl(
 final Action testConsumers = new ActionImpl(
   getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
-    if (value == null || value == '') {
+    if (value == 'true') {
+      return 'test consumers $validUrl close';
+    } else {
       return 'test consumers $validUrl';
     }
-    return 'test consumers $validUrl close';
   },
   isActive: Action.isPullRequestUrl,
   parameterName: 'Close test PR?',
+  parameterType: ParameterType.boolean,
   title: 'Test Consumers',
 );
 

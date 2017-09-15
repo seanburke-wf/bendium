@@ -53,7 +53,7 @@ class PopupComponent extends UiComponent<PopupProps> {
           ..className = 'action-field'
           ..type = 'text'
           ..ref = ((input) => tokenInput = input)
-          ..defaultValue = 'Update Hipchat token...')(),
+          ..placeholder = 'Update Hipchat token...')(),
         (Dom.button()
           ..className = 'action-button'
           ..onClick = _saveHipchatToken)('Save')));
