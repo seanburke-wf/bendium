@@ -70,7 +70,7 @@ class ActionBlockComponent
     }
 
     var actionTrigger = isActive
-        ? (Dom.div()
+        ? (Dom.button()
           ..value = props.action.parameterValue
           ..className = 'action-trigger action-button'
           ..onClick = _handleActionTriggerClick)()
@@ -88,13 +88,7 @@ class ActionBlockComponent
 
   void _onParameterChange(SyntheticFormEvent event) {
     InputElement target = event.target;
-
-    String value;
-    if (target is CheckboxInputElement) {
-      value = target.checked ? 'true' : 'false';
-    } else {
-      value = target.value;
-    }
+    String value = target.value;
 
     if (value == '') {
       value = null;
