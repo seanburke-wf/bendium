@@ -83,11 +83,15 @@ final Action deployPR = new ActionImpl(
 );
 
 final Action monitorPr = new ActionImpl(
-  getMessage: (String url, _) {
+  getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
-    return 'monitor pr $validUrl';
+    if (value == null || value == '') {
+      return 'monitor pr $validUrl';
+    }
+    return 'monitor pr $validUrl $value';
   },
   isActive: Action.isPullRequestUrl,
+  parameterName: 'Deploy Service Name',
   title: 'Monitor PR',
 );
 
