@@ -30,7 +30,7 @@ String validateAndCoerceToPullOrIssueUrl(String url) {
   if (url == null) {
     throw new ArgumentError.notNull('url');
   }
-  final re = new RegExp(r'(https:\/\/github\.com\/.*\/(?:pull|issues)\/\d+).*');
+  final re = new RegExp(r'(https://github\.com/.*/(?:pull|issues)/\d+).*');
   String prUrl;
   try {
     prUrl = re.allMatches(url)?.first?.group(1);
