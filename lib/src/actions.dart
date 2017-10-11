@@ -23,6 +23,27 @@ String validateAndCoerceToPullRequestUrl(String url) {
   return prUrl;
 }
 
+/// Validate a GitHub PR URL OR a Github Issue Url and attempt strip
+/// any trailing path segments if they exist.
+String validateAndCoerceToPullOrIssueUrl(String url) {
+  print('validateAndCoerceToPullOrIssueUrl $url');
+  if (url == null) {
+    throw new ArgumentError.notNull('url');
+  }
+  final re = new RegExp(r'(https:\/\/github\.com\/.*\/(?:pull|issues)\/\d+).*');
+  String prUrl;
+  try {
+    prUrl = re.allMatches(url)?.first?.group(1);
+  } catch (exc, trace) {
+    print('$exc $trace');
+  }
+  if (prUrl == null) {
+    throw new ArgumentError.value(
+        url, 'url', 'Not a PR or Issue url; does not match $re');
+  }
+  return prUrl;
+}
+
 /// Extract the repo name from a GitHub URL after verifying that it is
 /// well-formed.
 String validateAndExtractRepoName(String url) {
@@ -42,7 +63,7 @@ String validateAndExtractRepoName(String url) {
 
 final Action createJiraTicket = new ActionImpl(
   getMessage: (String url, String value) {
-    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    var validUrl = validateAndCoerceToPullOrIssueUrl(url);
     if (value == null || value == '') {
       return 'ticket $validUrl';
     }
