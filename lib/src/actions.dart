@@ -126,11 +126,17 @@ final Action mergeMaster = new ActionImpl(
 );
 
 final Action updateGolds = new ActionImpl(
-  getMessage: (String url, _) {
+  getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
-    return 'update golds $validUrl';
+    if (value == 'true') {
+      return 'update golds $validUrl --add-new';
+    } else {
+      return 'update golds $validUrl';
+    }
   },
   isActive: Action.isPullRequestUrl,
+  parameterName: 'Add new golds?',
+  parameterType: ParameterType.boolean,
   title: 'Update Gold Files',
 );
 
