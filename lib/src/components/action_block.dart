@@ -55,7 +55,7 @@ class ActionBlockComponent
               props.action.parameterName,
               (Dom.input()
                 ..type = 'checkbox'
-                ..onChange = _onParameterChange
+                ..onChange = _onBooleanParameterChange
                 ..checked = state.parameterValue == 'true'
                 ..value = state.parameterValue)());
           break;
@@ -84,6 +84,13 @@ class ActionBlockComponent
   void _handleActionTriggerClick(_) {
     props.bender
         .sendMessage(props.action.getMessage(props.url, state.parameterValue));
+  }
+
+  void _onBooleanParameterChange(SyntheticFormEvent event) {
+    CheckboxInputElement target = event.target;
+    String value = target.checked ? 'true' : null;
+    setState(newState()..parameterValue = value);
+    props.updateParameterValueCallback(value);
   }
 
   void _onParameterChange(SyntheticFormEvent event) {
