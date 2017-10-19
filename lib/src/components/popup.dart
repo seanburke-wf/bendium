@@ -43,12 +43,15 @@ class PopupComponent extends UiComponent<PopupProps> {
       actionBlocks.add((ActionBlock()
         ..action = action
         ..bender = props.bender
+        ..key = action.commandKey
         ..url = props.currentUrl
         ..updateParameterValueCallback =
             props.updateParameterValueCallbackFactory(action))());
     }
 
-    actionBlocks.add((Dom.div()..className = 'config')(
+    actionBlocks.add((Dom.div()
+          ..className = 'config'
+          ..key = 'update-hipchat-token')(
         (Dom.input()
           ..className = 'action-field'
           ..type = 'text'
