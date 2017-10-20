@@ -44,6 +44,27 @@ String validateAndCoerceToPullOrIssueUrl(String url) {
   return prUrl;
 }
 
+/// Validate a GitHub PR URL OR a Shipyard Url and attempt strip
+/// any trailing path segments if they exist.
+String validateAndCoerceToPullOrShipyardUrl(String url) {
+  print('validateAndCoerceToPullOrShipyardUrl $url');
+  if (url == null) {
+    throw new ArgumentError.notNull('url');
+  }
+  final re = new RegExp(r'(https://(?:github\.com|shipyard\.workiva\.org)/.*/(?:pull|\d+))');
+  String prUrl;
+  try {
+    prUrl = re.allMatches(url)?.first?.group(1);
+  } catch (exc, trace) {
+    print('$exc $trace');
+  }
+  if (prUrl == null) {
+    throw new ArgumentError.value(
+        url, 'url', 'Not a PR or Shipyard url; does not match $re');
+  }
+  return prUrl;
+}
+
 /// Extract the repo name from a GitHub URL after verifying that it is
 /// well-formed.
 String validateAndExtractRepoName(String url) {
@@ -103,17 +124,17 @@ final Action deployPR = new ActionImpl(
   title: 'Deploy to Wk-dev',
 );
 
-final Action monitorPr = new ActionImpl(
+final Action monitorStatus = new ActionImpl(
   getMessage: (String url, String value) {
-    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    var validUrl = validateAndCoerceToPullOrShipyardUrl(url);
     if (value == null || value == '') {
-      return 'monitor pr $validUrl';
+      return 'monitor $validUrl';
     }
-    return 'monitor pr $validUrl $value';
+    return 'monitor $validUrl $value';
   },
   isActive: Action.isPullRequestUrl,
   parameterName: 'Deploy Service Name',
-  title: 'Monitor PR',
+  title: 'Monitor Status (PR/Shipyard)',
 );
 
 final Action mergeMaster = new ActionImpl(
@@ -185,6 +206,19 @@ final Action rerunSkynet = new ActionImpl(
   title: 'Re-run Skynet',
 );
 
+final Action bumpVersion = new ActionImpl(
+  getMessage: (String url, String value) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    if (value == null || value == '') {
+      return 'update branch $validUrl bump';
+    }
+    return 'update branch $validUrl bump $value';
+  },
+  isActive: Action.isPullRequestUrl,
+  parameterName: 'Semver? (minor|major|patch)',
+  title: 'Bump Version on PR',
+);
+
 final Action cutRelease = new ActionImpl(
   getMessage: (String url, _) {
     var repoName = validateAndExtractRepoName(url);
@@ -210,7 +244,7 @@ final Iterable<Action> actions = <Action>[
   createJiraTicket,
   testConsumers,
   deployPR,
-  monitorPr,
+  monitorStatus,
   mergeMaster,
   updateGolds,
   dartFormat,
@@ -218,6 +252,7 @@ final Iterable<Action> actions = <Action>[
   runBootstrap,
   rerunSmithy,
   rerunSkynet,
+  bumpVersion,
   cutRelease,
   updateDartDeps
 ];
