@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
-final RegExp _prRegex = new RegExp(r'https://github.com/.+/.+/pull/[0-9]+');
+final RegExp _prRegex = new RegExp(r'https://github\.com/.+/.+/pull/[0-9]+');
+final RegExp _shipyardRegex =
+    new RegExp(r'https://shipyard\.workiva\.org/.*/\d+');
 
 /// Callback to indicate whether or not the action is active for the
 /// given URL.
@@ -20,6 +22,10 @@ abstract class Action {
   /// A default [IsActive] callback that determines whether the
   /// given URL is a GitHub pull request.
   static bool isPullRequestUrl(String url) => url.startsWith(_prRegex);
+
+  /// A default [IsActive] callback that determines whether the
+  /// given URL is a Shipyard build.
+  static bool isShipyardUrl(String url) => url.startsWith(_shipyardRegex);
 
   String _parameterValue;
 
