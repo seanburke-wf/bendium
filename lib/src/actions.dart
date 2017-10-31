@@ -51,7 +51,8 @@ String validateAndCoerceToPullOrShipyardUrl(String url) {
   if (url == null) {
     throw new ArgumentError.notNull('url');
   }
-  final re = new RegExp(r'(https://(?:github\.com|shipyard\.workiva\.org)/.*/(?:pull|\d+))');
+  final re = new RegExp(
+      r'(https://(?:github\.com|shipyard\.workiva\.org)/.*/(?:pull|\d+))');
   String prUrl;
   try {
     prUrl = re.allMatches(url)?.first?.group(1);
@@ -132,7 +133,8 @@ final Action monitorStatus = new ActionImpl(
     }
     return 'monitor $validUrl $value';
   },
-  isActive: Action.isPullRequestUrl,
+  isActive: (String url) =>
+      Action.isPullRequestUrl(url) || Action.isShipyardUrl(url),
   parameterName: 'Deploy Service Name',
   title: 'Monitor Status (PR/Shipyard)',
 );

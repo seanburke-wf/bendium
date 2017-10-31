@@ -20,5 +20,40 @@ void main() {
       action.parameterValue = 'value';
       expect(action.parameterValue, 'value');
     });
+
+    group('isPullRequestUrl', () {
+      void testIsPullRequestUrl(String url, bool expected) {
+        var matcher = expected ? isTrue : isFalse;
+        expect(Action.isPullRequestUrl(url), matcher);
+      }
+
+      test('should return true for a PR URL', () {
+        testIsPullRequestUrl('https://github.com/Foo/bar/pull/1', true);
+        testIsPullRequestUrl('https://github.com/foo/bar/pull/1', true);
+        testIsPullRequestUrl('https://github.com/Foo/bar/pull/10', true);
+      });
+
+      test('should return false for a non-PR URL', () {
+        testIsPullRequestUrl('https://github.com/Foo/bar', false);
+        testIsPullRequestUrl('https://github.com/Foo', false);
+        testIsPullRequestUrl('https://fakehub.com/Foo/bar/pull/1', false);
+      });
+    });
+
+    group('isShipyardUrl', () {
+      void testIsShipyardUrl(String url, bool expected) {
+        var matcher = expected ? isTrue : isFalse;
+        expect(Action.isShipyardUrl(url), matcher);
+      }
+
+      test('should return true for a Shipyard URL', () {
+        testIsShipyardUrl('https://shipyard.workiva.org/foo/1', true);
+        testIsShipyardUrl('https://shipyard.workiva.org/foo/10', true);
+      });
+
+      test('should return false for a non-Shipyard URL', () {
+        testIsShipyardUrl('https://fakeyard.workiva.org/foo/1', false);
+      });
+    });
   });
 }
