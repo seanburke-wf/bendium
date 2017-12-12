@@ -11,6 +11,13 @@ import 'utils.dart';
 Future<Null> updateToken(BenderAdapter adapter, String token) async {
   await chrome.storage.local.set({'hipchat-token': token});
   adapter.token = token;
+  await chrome.notifications.create(new chrome.NotificationOptions(
+    title: 'Bendium',
+    message: 'HipChat token updated',
+    iconUrl: 'icons/icon128.png',
+    type: chrome.TemplateType.BASIC,
+
+  ));
 }
 
 UpdateParameterValueCallback updateParameterValueFactory(Action action) {
