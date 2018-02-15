@@ -101,13 +101,13 @@ final Action testConsumers = new ActionImpl(
   getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
     if (value == 'true') {
-      return 'test consumers $validUrl close';
+      return 'test consumers $validUrl open';
     } else {
       return 'test consumers $validUrl';
     }
   },
   isActive: Action.isPullRequestUrl,
-  parameterName: 'Close test PR?',
+  parameterName: 'Leave PR Open?',
   parameterType: ParameterType.boolean,
   title: 'Test Consumers',
 );
