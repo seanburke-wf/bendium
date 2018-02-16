@@ -112,6 +112,15 @@ final Action testConsumers = new ActionImpl(
   title: 'Test Consumers',
 );
 
+final Action updateResults = new ActionImpl(
+  getMessage: (String url, _) {
+    var validUrl = validateAndCoerceToPullRequestUrl(url);
+    return 'update results $validUrl';
+  },
+  isActive: Action.isPullRequestUrl,
+  title: 'Update Consumer Results',
+);
+
 final Action deployPR = new ActionImpl(
   getMessage: (String url, String value) {
     var validUrl = validateAndCoerceToPullRequestUrl(url);
@@ -245,6 +254,7 @@ final Action updateDartDeps = new ActionImpl(
 final Iterable<Action> actions = <Action>[
   createJiraTicket,
   testConsumers,
+  updateResults,
   deployPR,
   monitorStatus,
   mergeMaster,
