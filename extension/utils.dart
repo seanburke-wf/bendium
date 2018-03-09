@@ -11,9 +11,9 @@ Future dumpTabsQueryResults(chrome.TabsQueryParams queryInfo,
 
 /// Get the url of the active tab.
 Future<String> currentUrl() async {
-  print('currentUrl');
-  chrome.Tab tab = await chrome.tabs.getSelected();
-  return tab.url;
+  List<chrome.Tab> tabs =
+      await chrome.tabs.query(new chrome.TabsQueryParams()..active = true);
+  return tabs.first.url;
 }
 
 /// Temporarily set the text of the icon.
