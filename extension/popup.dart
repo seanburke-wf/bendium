@@ -16,7 +16,6 @@ Future<Null> updateToken(BenderAdapter adapter, String token) async {
     message: 'HipChat token updated',
     iconUrl: 'icons/icon128.png',
     type: chrome.TemplateType.BASIC,
-
   ));
 }
 
